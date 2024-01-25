@@ -4,13 +4,10 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on(
   "error",
   console.error.bind(console, "MongoDB connection error:")
@@ -39,17 +36,17 @@ app.get("/tasks", async (req, res) => {
 });
 
 //GET tasks by category
-app.get('/tasks/category/:category', async (req, res) => {
-    const category = req.params.category;
-  
-    try {
-      const tasksByCategory = await Task.find({ category });
-      res.json(tasksByCategory);
-    } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
-  
+app.get("/tasks/category/:category", async (req, res) => {
+  const category = req.params.category;
+
+  try {
+    const tasksByCategory = await Task.find({ category });
+    res.json(tasksByCategory);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // POST a new task
 app.post("/tasks", async (req, res) => {
   const { title, description, dueDate, category } = req.body;

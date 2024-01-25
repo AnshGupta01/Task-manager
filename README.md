@@ -64,3 +64,6 @@ The API has the following endpoints:
 
 7. **README:**
    - The `README.md` file provides clear instructions on how to set up and use the application. 
+
+
+### Postman Screenshot
